@@ -4,6 +4,7 @@
   "description": "Simple library for matrix calculations",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "watch": "webpack --watch",
     "test": "ts-mocha test"
   },
