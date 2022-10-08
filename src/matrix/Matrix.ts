@@ -6,8 +6,8 @@ class Matrix {
     matrix: MatrixType
 
     constructor(rows: number, cols: number) {
-        if(rows <= 0 || cols <= 0) {
-            throw new Error("Can't instantiate a matrix that have equal or less than zero rows or columns.")
+        if(!Number.isInteger(rows) || !Number.isInteger(cols) || rows <= 0 || cols <= 0) {
+            throw new Error("Wrong matrix constructor values")
         }
         this.rows = rows;
         this.cols = cols;
