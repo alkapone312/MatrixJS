@@ -1,6 +1,8 @@
 var assert = require('assert');
 import Matrix from "../src/matrix/Matrix";
-import ConstructorDataset from './datasets/MatrixConstructorDataset'
+import ConstructorDataset from './datasets/MatrixConstructorDataset';
+import SetDataset from './datasets/SetMatrixDataset';
+import WrongParamDataset from './datasets/WrongParamDataset'
 
 describe('Matrix', () => {
     describe('constructor()', () => {
@@ -35,6 +37,23 @@ describe('Matrix', () => {
             assert.notEqual(oldMatrix, m.get());
             assert.equal(newMatrix, m.get());
         })
+
+        it('should throw bad input exception', () => {
+            let m = new Matrix(2, 2)
+            for(let i = 0 ; i < SetDataset.length; i++) {
+                assert.throws(() => {
+                    //@ts-ignore
+                    m.set(SetDataset[i])
+                })
+            }
+            assert.deepEqual(
+                [
+                    [0, 0],
+                    [0, 0]
+                ],
+                m.get()
+            )
+        })
     })
 
     describe('map()', () => {
@@ -52,6 +71,25 @@ describe('Matrix', () => {
                 m.get()
             )
         })
+
+        it('should throw wrong return value error', () => {
+            let m = new Matrix(2, 2);
+            for(let i = 0 ; i < WrongParamDataset.length; i++) {
+                let param = WrongParamDataset[i]
+                //@ts-ignore
+                assert.throws(() => m.map(() => param))
+            }
+        })
+    })
+
+    describe('check scalar', () => {
+        it('should check if scalar is of a good type', () => {
+            let m = new Matrix(2, 2);
+            for(let i = 0 ; i < WrongParamDataset.length; i++) {
+                //@ts-ignore
+                assert.throws(() => m.checkScalar(WrongParamDataset[i]))
+            }
+        })
     })
 
     describe('randomize()', () => {
@@ -63,6 +101,16 @@ describe('Matrix', () => {
                 assert.notEqual(0, val);
                 return 0;
             });
+        })
+
+        it('should check scalar type if it is provided', () => {
+            let m = new Matrix(2, 2);
+            for(let i = 3 ; i < WrongParamDataset.length; i++) {
+                assert.throws(() => {
+                    //@ts-ignore
+                    m.randomize(WrongParamDataset[i])
+                })
+            }
         })
     })
 
