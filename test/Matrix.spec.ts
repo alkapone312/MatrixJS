@@ -1,10 +1,20 @@
 var assert = require('assert');
 import Matrix from "../src/matrix/Matrix";
+import ConstructorDataset from './datasets/MatrixConstructorDataset'
 
 describe('Matrix', () => {
     describe('constructor()', () => {
         it('should construct Matrix object easly', () => {
             let m = new Matrix(2, 2)
+        });
+
+        it('should throw error with wrong initiation', () => {
+            let dataset = ConstructorDataset.dataset
+            for(let i = 0 ; i < dataset.length; i++) {
+                assert.throws(() => {
+                    let m = new Matrix(dataset[i][0], dataset[i][1])
+                })
+            }
         });
     });
 
@@ -148,7 +158,7 @@ describe('Matrix', () => {
                         [1, 0]
                     ])
                 })
-            }, Error)
+            })
         })
     })
 });
