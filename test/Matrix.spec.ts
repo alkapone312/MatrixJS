@@ -9,10 +9,9 @@ describe('Matrix', () => {
         });
 
         it('should throw error with wrong initiation', () => {
-            let dataset = ConstructorDataset.dataset
-            for(let i = 0 ; i < dataset.length; i++) {
+            for(let i = 0 ; i < ConstructorDataset.length; i++) {
                 assert.throws(() => {
-                    let m = new Matrix(dataset[i][0], dataset[i][1])
+                    let m = new Matrix(ConstructorDataset[i][0], ConstructorDataset[i][1])
                 })
             }
         });
