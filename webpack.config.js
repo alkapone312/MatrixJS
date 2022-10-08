@@ -11,15 +11,6 @@ module.exports = {
     filename: 'Matrix.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
-    port: 8000,
-  },
-  plugins: [new HtmlWebpackPlugin({
-    scriptLoading: 'module'
-  })],
   module: {
     rules: [
       {
