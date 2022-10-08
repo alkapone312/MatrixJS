@@ -21,8 +21,17 @@ class Matrix {
         }
     }
 
-    randomize(): void {
-        this.map(() => Math.random())
+    public get(): MatrixType {
+        return this.matrix;
+    }
+
+    public set(matrix: MatrixType) {
+        this.matrix = matrix;
+    }
+
+    /* istanbul ignore next */
+    print(): void {
+        console.table(this.matrix);
     }
 
     map(func: (value?: number) => number): void {
@@ -31,6 +40,10 @@ class Matrix {
                 this.matrix[i][j] = func(this.matrix[i][j]);
             }
         }
+    }
+
+    randomize(range?: number): void {
+        this.map(() => Math.random() * range)
     }
 
     add(scalar: number): void {
@@ -52,9 +65,20 @@ class Matrix {
 
     private multiplyByMatrix(matrix: MatrixType): void {
         if(matrix.length == this.cols) {
-            
+            let newM: MatrixType = [];
+            for(let i = 0 ; i < this.rows; i++) {
+                newM.push(new Array())
+                for(let j = 0 ; j < matrix[0].length ; j++) {
+                    let sum = 0;
+                    for(let k = 0 ; k < this.cols ; k++) {
+                        sum += this.matrix[i][k] * matrix[k][j];
+                    }
+                    newM[i].push(sum);
+                }
+            }
+            this.matrix = newM;
         } else {
-            console.error("Matrices don't match in dimensions for this operation.");
+            throw new Error("Matrices don't match in dimensions for this operation.");
         }
     }
 
