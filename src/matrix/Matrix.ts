@@ -6,6 +6,9 @@ class Matrix {
     matrix: MatrixType
 
     constructor(rows: number, cols: number) {
+        if(rows <= 0 || cols <= 0) {
+            throw new Error("Can't instantiate a matrix that have equal or less than zero rows or columns.")
+        }
         this.rows = rows;
         this.cols = cols;
         this.matrix = [];
@@ -26,15 +29,30 @@ class Matrix {
     }
 
     public set(matrix: MatrixType) {
+        this.checkMatrix(matrix);
         this.matrix = matrix;
     }
 
+    private checkMatrix(matrix: MatrixType) {
+        if(!Array.isArray(matrix) || !Array.isArray(matrix[0]) || matrix.length === 0) {
+            throw new Error("Provided value does not match needed matrix type.")
+        }
+        for(let i = 0 ; i < matrix.length ; i++) {
+            if(matrix[i].length === 0) {
+                throw new Error("Provided value does not match needed matrix type.")
+            }
+        }
+    }
+
     /* istanbul ignore next */
-    print(): void {
+    public print(): void {
         console.table(this.matrix);
     }
 
-    map(func: (value?: number) => number): void {
+    public map(func: (value?: number) => number): void {
+        if(typeof func(2) !== 'number') {
+            throw new Error("Mapping function has to return new number value.")
+        }
         for(let i = 0 ; i < this.rows ; i++) {
             for(let j = 0; j < this.cols ; j++) {
                 this.matrix[i][j] = func(this.matrix[i][j]);
@@ -42,19 +60,24 @@ class Matrix {
         }
     }
 
-    randomize(range?: number): void {
+    public randomize(range?: number): void {
+        if(range)
+            this.checkScalar(range);
+
         this.map(() => Math.random() * range)
     }
 
-    add(scalar: number): void {
+    public add(scalar: number): void {
+        this.checkScalar(scalar);
         this.map((value: number) => (value + scalar))
     }
 
-    subtract(scalar: number): void {
+    public subtract(scalar: number): void {
+        this.checkScalar(scalar);
         this.map((value: number) => (value - scalar))
     }
 
-    multiply(value: number | MatrixType): void {
+    public multiply(value: number | MatrixType): void {
         if(Array.isArray(value)) {
             this.multiplyByMatrix(value)
         } else {
@@ -83,7 +106,14 @@ class Matrix {
     }
 
     private multiplyByScalar(scalar: number): void {
+        this.checkScalar(scalar);
         this.map((value: number) => (value * scalar))
+    }
+
+    private checkScalar(scalar: number) {
+        if(typeof scalar !== 'number') {
+            throw new Error("Scalar value has to be a type of number.")
+        }
     }
 }
 
